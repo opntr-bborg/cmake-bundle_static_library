@@ -73,15 +73,15 @@ function(bundle_static_library tgt_name bundled_tgt_name)
       DEPENDS ${static_libs}
       COMMENT "Bundling ${bundled_tgt_name}"
       VERBATIM)
-  elseif (CMAKE_CXX_COMPILER_ID MATCHES "^(Clang|GNU)$")
+  elseif ((CMAKE_CXX_COMPILER_ID MATCHES "^(Clang|GNU)$") OR (CMAKE_C_COMPILER_ID MATCHES "^(Clang|GNU)$"))
     file(WRITE ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in
       "CREATE ${bundled_tgt_full_name}\n" )
-        
+
     foreach(tgt IN LISTS static_libs)
       file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in
         "ADDLIB $<TARGET_FILE:${tgt}>\n")
     endforeach()
-    
+
     file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in "SAVE\n")
     file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in "END\n")
 
@@ -91,7 +91,11 @@ function(bundle_static_library tgt_name bundled_tgt_name)
 
     set(ar_tool ${CMAKE_AR})
     if (CMAKE_INTERPROCEDURAL_OPTIMIZATION)
-      set(ar_tool ${CMAKE_CXX_COMPILER_AR})
+      if (CMAKE_CXX_COMPILER_AR)
+        set(ar_tool ${CMAKE_CXX_COMPILER_AR})
+      elseif (CMAKE_C_COMPILER_AR)
+        set(ar_tool ${CMAKE_C_COMPILER_AR})
+      endif()
     endif()
 
     add_custom_command(
