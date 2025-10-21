@@ -1,0 +1,39 @@
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+*.cbp
+
+# Build directories
+build/
+Build/
+out/
+
+# Generated files
+*.a
+*.so
+*.dylib
+*.dll
+*.lib
+*.exe
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Ninja
+.ninja_deps
+.ninja_log
+build.ninja
+rules.ninja
