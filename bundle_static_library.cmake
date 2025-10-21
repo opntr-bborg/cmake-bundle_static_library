@@ -63,7 +63,7 @@ function(bundle_static_library tgt_name bundled_tgt_name)
   list(REMOVE_DUPLICATES static_libs)
 
   set(bundled_tgt_full_name
-    ${CMAKE_BINARY_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}${bundled_tgt_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}${bundled_tgt_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
 
   if (APPLE)
     foreach(tgt IN LISTS static_libs)
@@ -77,20 +77,20 @@ function(bundle_static_library tgt_name bundled_tgt_name)
       COMMENT "Bundling ${bundled_tgt_name}"
       VERBATIM)
   elseif ((CMAKE_CXX_COMPILER_ID MATCHES "^(Clang|GNU)$") OR (CMAKE_C_COMPILER_ID MATCHES "^(Clang|GNU)$"))
-    file(WRITE ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${bundled_tgt_name}.ar.in
       "CREATE ${bundled_tgt_full_name}\n" )
 
     foreach(tgt IN LISTS static_libs)
-      file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in
+      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/${bundled_tgt_name}.ar.in
         "ADDLIB $<TARGET_FILE:${tgt}>\n")
     endforeach()
 
-    file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in "SAVE\n")
-    file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in "END\n")
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/${bundled_tgt_name}.ar.in "SAVE\n")
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/${bundled_tgt_name}.ar.in "END\n")
 
     file(GENERATE
-      OUTPUT ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar
-      INPUT ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in)
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${bundled_tgt_name}.ar
+      INPUT ${CMAKE_CURRENT_BINARY_DIR}/${bundled_tgt_name}.ar.in)
 
     set(ar_tool ${CMAKE_AR})
     if (CMAKE_INTERPROCEDURAL_OPTIMIZATION)
@@ -102,7 +102,7 @@ function(bundle_static_library tgt_name bundled_tgt_name)
     endif()
 
     add_custom_command(
-      COMMAND ${ar_tool} -M < ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar
+      COMMAND ${ar_tool} -M < ${CMAKE_CURRENT_BINARY_DIR}/${bundled_tgt_name}.ar
       OUTPUT ${bundled_tgt_full_name}
       DEPENDS ${static_libs}
       COMMENT "Bundling ${bundled_tgt_name}"
