@@ -101,5 +101,6 @@ Verifies support for pure C projects.
 MIT License - See LICENSE file for details
 
 Copyright (c) 2019 Cristian Adam
+Copyright (c) 2025 Byborg Ip SARL. All rights reserved.
 
 Modifications and improvements contributed by multiple authors.
