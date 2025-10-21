@@ -117,14 +117,14 @@ function(bundle_static_library tgt_name bundled_tgt_name)
     message(FATAL_ERROR "Unknown bundle scenario!")
   endif()
 
-  add_custom_target(bundling_target ALL DEPENDS ${bundled_tgt_full_name})
-  add_dependencies(bundling_target ${tgt_name})
+  add_custom_target(bundling_target_${bundled_tgt_name} ALL DEPENDS ${bundled_tgt_full_name})
+  add_dependencies(bundling_target_${bundled_tgt_name} ${static_libs})
 
   add_library(${bundled_tgt_name} STATIC IMPORTED)
-  set_target_properties(${bundled_tgt_name} 
-    PROPERTIES 
+  set_target_properties(${bundled_tgt_name}
+    PROPERTIES
       IMPORTED_LOCATION ${bundled_tgt_full_name}
       INTERFACE_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:${tgt_name},INTERFACE_INCLUDE_DIRECTORIES>)
-  add_dependencies(${bundled_tgt_name} bundling_target)
+  add_dependencies(${bundled_tgt_name} bundling_target_${bundled_tgt_name})
 
 endfunction()
