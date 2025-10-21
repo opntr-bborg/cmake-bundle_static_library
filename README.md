@@ -51,6 +51,25 @@ add_executable(myapp main.cpp)
 target_link_libraries(myapp mylib_bundled)
 ```
 
+### Installing Bundled Libraries
+
+Since bundled libraries are IMPORTED targets, they cannot be installed using `install(TARGETS ...)`. Instead, use the exported variable or property:
+
+```cmake
+# Bundle the library
+bundle_static_library(mylib mylib_bundled)
+
+# Install using the exported variable
+install(FILES ${mylib_bundled_LIBRARY_FILE}
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        COMPONENT libraries)
+
+# Or install using the property
+get_target_property(BUNDLE_FILE mylib_bundled BUNDLE_LIBRARY_FILE)
+install(FILES ${BUNDLE_FILE}
+        DESTINATION ${CMAKE_INSTALL_LIBDIR})
+```
+
 ## Platform Support
 
 - macOS
@@ -89,6 +108,15 @@ cd test/subdirs
 ```
 
 Verifies that bundled libraries are placed in the correct subdirectory build paths when using `add_subdirectory()`.
+
+### Installation Tests
+
+```bash
+cd test/install
+./run_test.sh
+```
+
+Verifies that bundled libraries can be properly installed using CMake install commands.
 
 ## Requirements
 

@@ -131,7 +131,11 @@ function(bundle_static_library tgt_name bundled_tgt_name)
   set_target_properties(${bundled_tgt_name}
     PROPERTIES
       IMPORTED_LOCATION ${bundled_tgt_full_name}
-      INTERFACE_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:${tgt_name},INTERFACE_INCLUDE_DIRECTORIES>)
+      INTERFACE_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:${tgt_name},INTERFACE_INCLUDE_DIRECTORIES>
+      BUNDLE_LIBRARY_FILE ${bundled_tgt_full_name})
   add_dependencies(${bundled_tgt_name} bundling_target_${bundled_tgt_name})
+
+  # Export the bundled library file path to parent scope for installation
+  set(${bundled_tgt_name}_LIBRARY_FILE ${bundled_tgt_full_name} PARENT_SCOPE)
 
 endfunction()
