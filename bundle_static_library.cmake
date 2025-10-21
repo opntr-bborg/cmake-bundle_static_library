@@ -24,6 +24,9 @@ function(bundle_static_library tgt_name bundled_tgt_name)
   list(APPEND static_libs ${tgt_name})
 
   function(_recursively_collect_dependencies input_target)
+    # Inherit static_libs from parent scope
+    set(static_libs ${static_libs})
+
     set(_input_link_libraries LINK_LIBRARIES)
     get_target_property(_input_type ${input_target} TYPE)
     if (${_input_type} STREQUAL "INTERFACE_LIBRARY")
