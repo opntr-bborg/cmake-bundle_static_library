@@ -70,6 +70,7 @@ function(bundle_static_library tgt_name bundled_tgt_name)
     add_custom_command(
       COMMAND libtool -static -o ${bundled_tgt_full_name} ${static_libs_full_names}
       OUTPUT ${bundled_tgt_full_name}
+      DEPENDS ${static_libs}
       COMMENT "Bundling ${bundled_tgt_name}"
       VERBATIM)
   elseif (CMAKE_CXX_COMPILER_ID MATCHES "^(Clang|GNU)$")
@@ -96,6 +97,7 @@ function(bundle_static_library tgt_name bundled_tgt_name)
     add_custom_command(
       COMMAND ${ar_tool} -M < ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar
       OUTPUT ${bundled_tgt_full_name}
+      DEPENDS ${static_libs}
       COMMENT "Bundling ${bundled_tgt_name}"
       VERBATIM)
   elseif(MSVC)
@@ -108,6 +110,7 @@ function(bundle_static_library tgt_name bundled_tgt_name)
     add_custom_command(
       COMMAND ${lib_tool} /NOLOGO /OUT:${bundled_tgt_full_name} ${static_libs_full_names}
       OUTPUT ${bundled_tgt_full_name}
+      DEPENDS ${static_libs}
       COMMENT "Bundling ${bundled_tgt_name}"
       VERBATIM)
   else()
