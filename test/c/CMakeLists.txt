@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(BundleStaticLibraryCTests C)
 
 # Include the bundle_static_library function
-include(../bundle_static_library.cmake)
+include(../../bundle_static_library.cmake)
 
 enable_testing()
 

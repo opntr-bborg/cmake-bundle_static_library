@@ -18,7 +18,8 @@ This fork includes the following enhancements:
 - **Dependency tracking**: Adds proper `DEPENDS` clauses so bundled libraries rebuild when sources change
 - **Unique target names**: Fixes target name collision allowing multiple bundles in the same project
 - **C language support**: Works with pure C projects, not just C++
-- **Comprehensive tests**: Test suites for both C and C++ to verify functionality
+- **Subdirectory support**: Bundled libraries are placed in correct subdirectory build paths when using `add_subdirectory()`
+- **Comprehensive tests**: Test suites for C, C++, and subdirectory builds to verify functionality
 
 ## Features
 
@@ -61,7 +62,7 @@ target_link_libraries(myapp mylib_bundled)
 ### C++ Tests
 
 ```bash
-cd test
+cd test/cpp
 ./run_tests.sh
 ```
 
@@ -74,11 +75,20 @@ Tests cover:
 ### C Tests
 
 ```bash
-cd test_c
+cd test/c
 ./run_tests.sh
 ```
 
 Verifies support for pure C projects.
+
+### Subdirectory Tests
+
+```bash
+cd test/subdirs
+./run_tests.sh
+```
+
+Verifies that bundled libraries are placed in the correct subdirectory build paths when using `add_subdirectory()`.
 
 ## Requirements
 

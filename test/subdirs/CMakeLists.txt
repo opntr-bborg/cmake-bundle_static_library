@@ -4,7 +4,7 @@ project(SubdirectoryTests CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(../bundle_static_library.cmake)
+include(../../bundle_static_library.cmake)
 
 enable_testing()
 
